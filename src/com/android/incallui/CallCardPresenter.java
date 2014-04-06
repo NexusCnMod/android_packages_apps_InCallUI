@@ -358,10 +358,10 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
             final String name = getNameForCall(entry);
             final String number = getNumberForCall(entry);
             final boolean nameIsNumber = name != null && name.equals(entry.number);
-            ui.setPrimary(number, name, nameIsNumber, entry.label,
+            ui.setPrimary(number, name, nameIsNumber, entry.label, entry.location,
                     entry.photo, isConference, isGenericConf, entry.isSipCall);
         } else {
-            ui.setPrimary(null, null, false, null, null, isConference, isGenericConf, false);
+            ui.setPrimary(null, null, false, null, null, null, isConference, isGenericConf, false);
         }
 
     }
@@ -446,7 +446,8 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
         // If the name is empty, we use the number for the name...so dont show a second
         // number in the number field
         if (TextUtils.isEmpty(contactInfo.name)) {
-            return contactInfo.location;
+            //return contactInfo.location;
+            return null;
         }
         return contactInfo.number;
     }
@@ -457,7 +458,7 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
 
     public interface CallCardUi extends Ui {
         void setVisible(boolean on);
-        void setPrimary(String number, String name, boolean nameIsNumber, String label,
+        void setPrimary(String number, String name, boolean nameIsNumber, String label, String location,
                 Drawable photo, boolean isConference, boolean isGeneric, boolean isSipCall);
         void setSecondary(boolean show, String name, boolean nameIsNumber, String label,
                 Drawable photo, boolean isConference, boolean isGeneric);
@@ -469,5 +470,6 @@ public class CallCardPresenter extends Presenter<CallCardPresenter.CallCardUi>
         void setPrimaryImage(Drawable image);
         void setPrimaryPhoneNumber(String phoneNumber);
         void setPrimaryLabel(String label);
+        void setPrimaryLocation(String location);
     }
 }

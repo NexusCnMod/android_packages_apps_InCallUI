@@ -46,6 +46,7 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
     // Primary caller info
     private TextView mPhoneNumber;
     private TextView mNumberLabel;
+    private TextView mNumberLocation;
     private TextView mPrimaryName;
     private TextView mCallStateLabel;
     private TextView mCallTypeLabel;
@@ -106,6 +107,7 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
 
         mPhoneNumber = (TextView) view.findViewById(R.id.phoneNumber);
         mPrimaryName = (TextView) view.findViewById(R.id.name);
+        mNumberLocation = (TextView) view.findViewById(R.id.location);
         mNumberLabel = (TextView) view.findViewById(R.id.label);
         mSecondaryCallInfo = (ViewStub) view.findViewById(R.id.secondary_call_info);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
@@ -176,7 +178,18 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
     }
 
     @Override
-    public void setPrimary(String number, String name, boolean nameIsNumber, String label,
+    public void setPrimaryLocation(String location) {
+       if (!TextUtils.isEmpty(location)) {
+           mNumberLocation.setText(location);
+           mNumberLocation.setVisibility(View.VISIBLE);
+        } else {
+           mNumberLocation.setVisibility(View.GONE);
+       }
+    }
+
+
+    @Override
+    public void setPrimary(String number, String name, boolean nameIsNumber, String label, String location,
             Drawable photo, boolean isConference, boolean isGeneric, boolean isSipCall) {
         Log.d(this, "Setting primary call");
 
@@ -193,6 +206,9 @@ public class CallCardFragment extends BaseFragment<CallCardPresenter, CallCardPr
 
         // Set the label (Mobile, Work, etc)
         setPrimaryLabel(label);
+
+        // Set the Location
+        setPrimaryLocation(location);
 
         showInternetCallLabel(isSipCall);
 
